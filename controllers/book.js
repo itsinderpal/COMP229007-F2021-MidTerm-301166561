@@ -1,3 +1,8 @@
+// book.js
+// Inderpal Singh
+// 301166561
+// BookList App
+
 const ObjectID = require('mongodb').ObjectId;
 // create a reference to the model
 let Book = require('../models/book');
@@ -83,5 +88,14 @@ module.exports.processEditPage = (req, res, next) => {
 
 // Deletes a book based on its id.
 module.exports.performDelete = (req, res, next) => {
-  // ADD YOUR CODE HERE
+  let id = req.params.id;
+
+  Book.remove({ _id: ObjectID(id) }, (err) => {
+    if (err) {
+      return console.error(err);
+    } else {
+      res.redirect('/book/list')
+    }
+  });
+  // res.redirect('/book/list');
 };
