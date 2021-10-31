@@ -48,6 +48,18 @@ module.exports.processAddPage = (req, res, next) => {
 
 // Gets a book by id and renders the Edit form using the add_edit.ejs template
 module.exports.displayEditPage = (req, res, next) => {
+  let id = req.params.id;
+
+  Book.findById(id, (err, bookEditDisplay) => {
+    if (err) {
+      return console.error(err);
+    } else {
+      res.render('book/add_edit', {
+        title: 'Edit Book',
+        book: bookEditDisplay,
+      });
+    }
+  });
 };
 
 // Processes the data submitted from the Edit form to update a book
