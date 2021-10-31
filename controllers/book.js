@@ -1,3 +1,4 @@
+const ObjectID = require('mongodb').ObjectId;
 // create a reference to the model
 let Book = require('../models/book');
 
@@ -64,7 +65,20 @@ module.exports.displayEditPage = (req, res, next) => {
 
 // Processes the data submitted from the Edit form to update a book
 module.exports.processEditPage = (req, res, next) => {
-  // ADD YOUR CODE HERE
+  let id = req.params.id;
+
+  const updatedBook = new Book({ _id: id, ...req.body });
+  console.log(updatedBook);
+  Book.updateOne(
+    { _id: new ObjectID(id) },
+    { $set: { ...updatedBook } },
+    (err, res) => {
+      if (err) {
+        return console.error(err);
+      }
+    }
+  );
+  res.redirect('/book/list');
 };
 
 // Deletes a book based on its id.
